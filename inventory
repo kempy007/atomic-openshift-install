@@ -1,0 +1,38 @@
+[OSEv3:vars]
+ansible_ssh_user=root
+openshift_deployment_type=origin
+containerized=true
+#ansible_python_interpreter=/usr/bin/python3
+openshift_disable_check=docker_image_availability,disk_availability,memory_availability
+openshift_master_bootstrap_auto_approve=true
+
+#openshift_release="v3.9" #works with v3.9.28 of openshift/ansible
+#openshift_release="v3.10" # master failed with v3.10.1 of openshift/ansible but *ok with v3.10.0
+openshift_release="v3.11" # failed to deploy master with v3.11.1 of openshift/ansible but *ok with v3.11.0
+#openshift_release="latest" #not a valid version
+#openshift_release="v4.0" # failed to find matching openshift/origin containers
+
+#openshift_image_tag=latest # did not like, need to experiment with explicit version
+
+#deployment_subtype=registry # just installs the registry
+openshift_hosted_infra_selector=""
+
+openshift_enable_service_catalog=false # this failed in v3.9
+openshift_public_hostname=console.PROJECT.cluster.local
+openshift_master_default_subdomain=apps.PROJECT.cluster.local
+openshift_master_api_port=8443
+openshift_master_console_port=8443
+
+[OSEv3:children]
+etcd
+masters
+nodes
+
+[etcd]
+IP.IP.IP.IP openshift_ip=IP.IP.IP.IP
+
+[masters]
+IP.IP.IP.IP openshift_ip=IP.IP.IP.IP openshift_schedulable=true
+
+[nodes]
+IP.IP.IP.IP openshift_ip=IP.IP.IP.IP openshift_schedulable=true ansible_host="{{ lookup('env', 'RHCI_ocp_master_IP') }}" openshift_node_group_name='node-config-all-in-one'
