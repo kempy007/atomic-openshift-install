@@ -27,3 +27,6 @@ So we need to match the version in the inventory file otherwise cluster install 
 
 ### to start fresh and remove whole cluster
 ```atomic install --system --storage=ostree --set INVENTORY_FILE=/root/inventory --set PLAYBOOK_FILE=/usr/share/ansible/openshift-ansible/playbooks/adhoc/uninstall.yml --set OPTS="-v" docker.io/openshift/origin-ansible:vINT.INT.INT```
+
+# References
+Finally redhat are talking about all-in-one installs at https://blog.openshift.com/openshift-all-in-one-aio-for-labs-and-fun/ but most importantly it has another inventory template referenced at https://blog.openshift.com/openshift-all-in-one-aio-for-labs-and-fun/ 
